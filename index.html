@@ -1,11 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Erosion Erudition</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="index.css" rel="stylesheet">
+
 </head>
 <body>
-    <h1>Erosion Erudition</h1>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.6.3/lottie.min.js"></script>
+<div id="cover_container">
+	<div id="cover">
+		<div id="lotti">      
+      <div class="lottie-animation" data-anim-   path="https://lottie.host/b8308eda-6af5-4176-9301-dde286e84677/wykv3gdXRC.json" data-anim-duration="parentHeight"></div>
+		</div>
+	</div>
+</div>
+
+<script>
+  const animation = document.querySelector('.lottie-animation');
+
+const lottieInstance = lottie.loadAnimation({
+    container: animation,
+    renderer: 'svg',
+    loop: false,
+    autoplay: false,
+    path: "https://lottie.host/b8308eda-6af5-4176-9301-dde286e84677/wykv3gdXRC.json"
+});
+
+
+/**
+* Returns the percentage (0 to 100) of the way scrolled through a sticky container
+* @param {*} stickyContainer 	    CSS selector to get the parent container holding container holding the sticky element
+* @param {*} stickyElement 		CSS selector to get the sticky element
+* @returns 
+*/
+function getPercentScrolled(stickyContainer, stickyElement) {
+  container = document.querySelector(stickyContainer).getBoundingClientRect();
+  stickyElement = document.querySelector(stickyElement).getBoundingClientRect();
+
+  let scrollPosition = -container.top; // Sticky height >= viewport height
+  let scrollHeight = container.height - stickyElement.height;
+
+  let percentScrolled = (scrollPosition / scrollHeight) * 100;
+  if (percentScrolled > 100) percentScrolled = 100;
+  else if (percentScrolled < 0) percentScrolled = 0;
+
+  //console.log('stickyElement.heightt: ', stickyElement.height);
+  //console.log('scrollPosition: ', scrollPosition);
+  //console.log('scrollHeight: ', scrollHeight);
+  //console.log('percentScrolled: ', percentScrolled);
+
+  return percentScrolled;
+}
+
+/////////////////////////////
+// Main scroll event listener
+//////////////////////////////
+
+window.addEventListener('scroll', () => {
+  //-------------------------------
+  // Top Cover animations
+  //-------------------------------
+
+  let percentScrolled = getPercentScrolled('#cover_container', '#cover');
+  
+  const scrollFrame = (percentScrolled / 100) * (lottieInstance.totalFrames - 1);
+  lottieInstance.goToAndStop(scrollFrame, true);
+});
+
+// Adjust the class names for the various wordpress-generated covers to relocate them in their parent elements
+window.onload = function() { 
+  // Force trigger the scroll event to update the animation states
+  window.dispatchEvent(new CustomEvent('scroll'));
+};
+</script>
 </body>
 </html>
